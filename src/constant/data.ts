@@ -7,23 +7,22 @@ export const navLinks = [
   { href: '/headphones', label: 'HeadPhones' },
   { href: '/speakers', label: 'Speakers' },
   { href: '/earphones', label: 'Earphones' },
-  // { href: '/bills', label: 'Recurring Bills' },
 ];
 
 export const homeProduct = [
   {
     id: 1,
-    category: 'Headphones',
+    category: 'headphones',
     imgSrc: HeadPhoneImg,
   },
   {
     id: 2,
-    category: 'Speakers',
+    category: 'speakers',
     imgSrc: SpeakerImg,
   },
   {
     id: 3,
-    category: 'Earphones',
+    category: 'earphones',
     imgSrc: EarphoneImg,
   },
 ];

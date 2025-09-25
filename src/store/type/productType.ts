@@ -71,17 +71,18 @@ export interface Image2 {
 }
 
 // Action constants
-export const SET_PRODUCT = 'SET_PRODUCT';
+export const SET_PRODUCTS = 'SET_PRODUCTS';
+export const SET_SELECTED_PRODUCT = 'SET_SELECTED_PRODUCT';
 
 // State
-export interface ProductState {
-  selectedProduct: Root | null;
+export interface SetProductsAction {
+  type: typeof SET_PRODUCTS;
+  payload: Root[];
 }
 
-// Actions
-interface SetProductAction {
-  type: typeof SET_PRODUCT;
-  payload: Root;
+export interface SetSelectedProductAction {
+  type: typeof SET_SELECTED_PRODUCT;
+  payload: Root | null;
 }
 
-export type ProductActionTypes = SetProductAction;
+export type ProductActionTypes = SetProductsAction | SetSelectedProductAction;

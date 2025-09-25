@@ -1,45 +1,58 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import { persistReducer, persistStore } from 'redux-persist';
-// Use sessionStorage instead of localStorage
-import storageSession from 'redux-persist/lib/storage/session';
+// import { configureStore } from '@reduxjs/toolkit';
+// import { rootReducer } from './reducer';
+// import { loadState, saveState } from './sessionStorage';
+//
+// const persistedState = loadState();
+//
+// export const store = configureStore({
+//   reducer: rootReducer,
+//   preloadedState: persistedState,
+//   middleware: (getDefaultMiddleware) =>
+//     getDefaultMiddleware({
+//       serializableCheck: false, // optional: disables warnings for non-serializable data
+//     }),
+// });
+//
+// // Subscribe to store changes and save in sessionStorage
+// store.subscribe(() => {
+//   saveState(store.getState());
+// });
+//
+// export type AppDispatch = typeof store.dispatch;
+// export type RootState = ReturnType<typeof store.getState>;
 
-import { productReducer } from './reducer/productReducer';
-import { ProductActionTypes } from './type/productType';
+import { configureStore } from '@reduxjs/toolkit';
+import { persistStore, persistReducer } from 'redux-persist';
+import storageSession from 'redux-persist/lib/storage/session'; // sessionStorage
+import { createNoopStorage } from '@/store/sessionStorage';
+import appReducer from './reducer';
 
-// 1️⃣ Combine reducers
-const rootReducer = combineReducers({
-  product: productReducer,
-});
+const isServer = typeof window === 'undefined';
 
-// 2️⃣ RootState type
-export type RootState = ReturnType<typeof rootReducer>;
-
-// 3️⃣ Union all actions here (expand later if you add cart, auth, etc.)
-export type AppActions = ProductActionTypes;
-
-// 4️⃣ Persist config
 const persistConfig = {
   key: 'root',
-  storage: storageSession,
+  version: 1,
+  storage: isServer ? createNoopStorage() : storageSession,
+  whitelist: ['cart'], // only persist product slice
 };
 
-// 5️⃣ Persisted reducer
-const persistedReducer = persistReducer<RootState, ProductActionTypes>(
-  persistConfig,
-  rootReducer
-);
+const persistedReducer = persistReducer(persistConfig, appReducer);
 
-// 6️⃣ Create store
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: false, // redux-persist needs this off
+      serializableCheck: {
+        ignoredActions: [
+          'persist/PERSIST',
+          'persist/REHYDRATE',
+          'persist/REGISTER',
+        ],
+      },
     }),
 });
 
-// 7️⃣ Persistor
 export const persistor = persistStore(store);
 
-// 8️⃣ Typed hooks (if you use react-redux hooks)
 export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;

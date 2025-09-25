@@ -4,10 +4,10 @@ import Image from 'next/image';
 import logo from '@assets/shared/desktop/logo.svg';
 import { navLinks } from '@/constant/data';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useParams } from 'next/navigation';
 
 const Footer = () => {
-  const pathname = usePathname();
+  const { category } = useParams<{ category: string }>();
   return (
     <footer className="relative bottom-0 flex flex-col w-full h-1/3 bg-black px-50 py-15">
       <div className="flex items-center justify-between ">
@@ -20,7 +20,7 @@ const Footer = () => {
         />
         <nav className="flex items-center justify-evenly gap-16">
           {navLinks.map((link, index) => {
-            const isActive = pathname === link.href;
+            const isActive = category === link.label.toLowerCase();
             return (
               <Link
                 key={index}

@@ -3,9 +3,10 @@ import Image from 'next/image';
 import { useMemo } from 'react';
 import { Button } from '@components/ui/button';
 import { useRouter } from 'next/navigation';
-import { setProduct } from '@/store/action/productAction';
+// import { setProduct } from '@/store/action/productAction';
 import { useDispatch } from 'react-redux';
 import { Root } from '@/store/type/productType';
+import { setSelectedProduct } from '@/store/slices/productSlice';
 
 interface AlternatingSectionProps {
   sections: Root[];
@@ -19,9 +20,8 @@ export default function AlternatingSection({
   const router = useRouter();
   const dispatch = useDispatch();
 
-  console.log(sections, 'checking here');
   const handleClick = (product: Root) => {
-    dispatch(setProduct(product));
+    dispatch(setSelectedProduct(product));
     router.push(`/${product.category}/${product.slug}`);
   };
 

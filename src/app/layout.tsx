@@ -40,9 +40,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${manrope.variable} antialiased`}
       >
-        <Navbar />
         <Provider store={store}>
-          <PersistGate persistor={persistor}>{children}</PersistGate>
+          {/*{children}*/}
+          <PersistGate persistor={persistor}>
+            <Navbar />
+            {children}
+          </PersistGate>
         </Provider>
         <Footer />
       </body>

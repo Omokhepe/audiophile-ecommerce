@@ -1,24 +1,42 @@
-import React, { useMemo } from 'react';
-import { useFetchData } from '@hooks/useFetchData';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store';
+'use client';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppState } from '@/store/reducer';
+import { Root } from '@/store/type/productType';
+import { useParams } from 'next/navigation';
+import { setSelectedProduct } from '@/store/slices/productSlice';
+import ProductDetailComponent from '@components/ProductDetailComponent';
+import ProductDisplayHome from '@components/ProductDisplayHome';
+import BestAudioGear from '@components/BestAudioGear';
 
 const Page = () => {
-  const product = useSelector((state: RootState) => state.product);
+  const { product } = useParams<{ product: string }>();
+  const dispatch = useDispatch();
+  const { products, selectedProduct } = useSelector(
+    (state: AppState) => state.product
+  );
 
-  console.log(product);
+  console.log(product, selectedProduct, products, 'product page');
 
-  // if (!data) return <p>No Data Available</p>;
+  // Ensure product is selected when page is refreshed
+  useEffect(() => {
+    if (!selectedProduct && products.length > 0 && product) {
+      const found = products.find((p: Root) => p.slug === product);
+      if (found) {
+        dispatch(setSelectedProduct(found));
+      }
+    }
+  }, [products, selectedProduct, product, dispatch]);
 
-  // const filteredSections = useMemo(
-  //   () =>
-  //     data
-  //       .filter((section) => section.category === category)
-  //       .sort((a, b) => (a.new === b.new ? 0 : a.new ? -1 : 1)),
-  //   [sections, category]
-  // );
+  if (!selectedProduct) return <p>No Data Available</p>;
 
-  return <div>here</div>;
+  return (
+    <>
+      <ProductDetailComponent selectedProduct={selectedProduct} />
+      <ProductDisplayHome />
+      <BestAudioGear />
+    </>
+  );
 };
 
 export default Page;

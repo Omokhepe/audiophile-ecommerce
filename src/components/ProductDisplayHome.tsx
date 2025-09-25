@@ -1,9 +1,23 @@
+'use client';
 import React from 'react';
 import { homeProduct } from '@/constant/data';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import { ChevronRight } from 'lucide-react';
+import { Root } from '@/store/type/productType';
+import { setSelectedProduct } from '@/store/slices/productSlice';
+import { useRouter } from 'next/navigation';
+
+interface ProductProps {
+  id: number;
+  category: string;
+  imgSrc: StaticImageData;
+}
 
 const ProductDisplayHome = () => {
+  const router = useRouter();
+  const handleClick = (product: ProductProps) => {
+    router.push(`/${product.category}`);
+  };
   return (
     <div className="flex justify-center items-center gap-10 h-1/2 py-10">
       {homeProduct.map((product) => (
@@ -24,7 +38,10 @@ const ProductDisplayHome = () => {
           <h4 className="mt-6 text-lg font-semibold tracking-wide text-gray-900">
             {product.category}
           </h4>
-          <div className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-gray-700 hover:text-orange-500">
+          <div
+            className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-gray-700 hover:text-orange-500 cursor-pointer"
+            onClick={() => handleClick(product)}
+          >
             <h6>Shop</h6>
             <ChevronRight className="w-4 h-4" />
           </div>
