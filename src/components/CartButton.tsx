@@ -34,7 +34,7 @@ export const CartButton = ({ selectedProduct, cart, quantity }: CartProps) => {
           </Button>
 
           {quantity && (
-            <div className="flex items-center justify-center gap-4 bg-primary-hover w-25 h-9 rounded-sm">
+            <div className="flex items-center justify-center gap-4 bg-sidebar-ring w-25 h-9 rounded-sm">
               <Minus
                 height={14}
                 className="cursor-pointer"
@@ -51,7 +51,7 @@ export const CartButton = ({ selectedProduct, cart, quantity }: CartProps) => {
         </div>
       ) : (
         <div className="flex gap-5">
-          <div className="flex items-center justify-center gap-4 bg-primary-hover w-25 h-9 rounded-sm">
+          <div className="flex items-center justify-center gap-4 bg-gray-200 w-25 h-9 rounded-sm">
             <Minus
               height={14}
               className="cursor-pointer"

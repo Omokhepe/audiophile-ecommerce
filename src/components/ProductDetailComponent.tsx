@@ -5,6 +5,7 @@ import { Root } from '@/store/type/productType';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { CartButton } from '@components/CartButton';
+import { useRouter } from 'next/navigation';
 
 interface ProductDetailProps {
   selectedProduct: Root | null;
@@ -13,6 +14,7 @@ interface ProductDetailProps {
 const ProductDetailComponent: React.FC<ProductDetailProps> = ({
   selectedProduct,
 }) => {
+  const router = useRouter();
   const cart = useSelector((state: RootState) => state.cart.items);
 
   const cartQuantity = cart.find((item) => item.id === selectedProduct?.id);
@@ -21,6 +23,12 @@ const ProductDetailComponent: React.FC<ProductDetailProps> = ({
   if (!cart) return <p>No Data Available</p>;
   return (
     <div className="flex flex-col my-10">
+      <div
+        className="ml-25 underline hover:text-primary"
+        onClick={() => router.back()}
+      >
+        Go Back
+      </div>
       <div className="flex items-center justify-center mb-20">
         <div className="flex justify-center mr-30">
           <Image
