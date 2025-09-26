@@ -19,6 +19,13 @@ const ProductDetailComponent: React.FC<ProductDetailProps> = ({
 
   const cartQuantity = cart.find((item) => item.id === selectedProduct?.id);
 
+  const categoryNames = ['headphone', 'earphone', 'speaker'];
+
+  const handleClick = (slug: string) => {
+    const cat = categoryNames.find((c) => c.includes(slug));
+    router.push(`/${cat}/${slug}`);
+  };
+
   if (!selectedProduct) return <p>No Data Available</p>;
   if (!cart) return <p>No Data Available</p>;
   return (
@@ -112,7 +119,7 @@ const ProductDetailComponent: React.FC<ProductDetailProps> = ({
             alt={selectedProduct.name}
             width={450}
             height={300}
-            className="rounded-xl object-cover"
+            className="rounded-xl object-cover mb-4 transition-transform  ease-in-out duration-300 hover:scale-125 hover:shadow-xl"
           />
         </div>
 
@@ -121,7 +128,7 @@ const ProductDetailComponent: React.FC<ProductDetailProps> = ({
           alt={selectedProduct.name}
           width={450}
           height={300}
-          className="rounded-xl object-cover"
+          className="rounded-xl object-cover mb-4 transition-transform  ease-in-out duration-300 hover:scale-125 hover:shadow-xl"
         />
       </div>
       <div className="flex items-center justify-center">
@@ -137,7 +144,9 @@ const ProductDetailComponent: React.FC<ProductDetailProps> = ({
               />
               <span className="font-bold text-sm my-5">{item.name}</span>
               {/*<p>Qty: {item.quantity}</p>*/}
-              <Button>SEE PRODUCT</Button>
+              <Button onClick={() => handleClick(item.slug)}>
+                SEE PRODUCT
+              </Button>
             </div>
           );
         })}

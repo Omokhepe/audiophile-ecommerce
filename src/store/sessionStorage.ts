@@ -1,13 +1,12 @@
-// utils/noopStorage.ts
-export function createNoopStorage() {
+export function createNoopStorage<T = unknown>() {
   return {
-    getItem(_key: string) {
+    getItem(_key: string): Promise<T | null> {
       return Promise.resolve(null);
     },
-    setItem(_key: string, value: any) {
+    setItem(_key: string, value: T): Promise<T> {
       return Promise.resolve(value);
     },
-    removeItem(_key: string) {
+    removeItem(_key: string): Promise<void> {
       return Promise.resolve();
     },
   };

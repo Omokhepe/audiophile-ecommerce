@@ -3,8 +3,6 @@ import React from 'react';
 import { homeProduct } from '@/constant/data';
 import Image, { StaticImageData } from 'next/image';
 import { ChevronRight } from 'lucide-react';
-import { Root } from '@/store/type/productType';
-import { setSelectedProduct } from '@/store/slices/productSlice';
 import { useRouter } from 'next/navigation';
 
 interface ProductProps {
